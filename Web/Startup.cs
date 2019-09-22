@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using ApplicationCore.Data;
+using ApplicationCore.Common;
+using ApplicationCore.Interfaces;
 
 namespace Web
 {
@@ -26,6 +28,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IGenericWrapper, GenericWrapper>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<GenericContext>(options => options.UseInMemoryDatabase("eJetReservationRepository"));
         }

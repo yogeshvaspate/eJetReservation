@@ -3,20 +3,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ApplicationCore.Data;
 using ApplicationCore.Entities;
+using ApplicationCore.Common;
+using ApplicationCore.Interfaces;
 
 namespace Web.Controllers.CustomerControllers
 {
     [Route("api/[controller]")]
     public class CreateCustomerController : Controller
     {
-        private GenericContext _genericContext;
-
-        public CreateCustomerController(GenericContext context)
+        private IGenericWrapper _wrapper;
+            
+        public CreateCustomerController(IGenericWrapper wrapper)
         {
-            _genericContext = context;
+            _wrapper = wrapper;
         }
 
-        [HttpGet("{CustomerId}/{FirstName}/{LastName}")]
+        [HttpGet("{CustomerId}/{Title}/{FirstName}/{LastName}")]
+
         public async Task<string> AddCustomerById(int CustomerId, string Title, string FirstName, string LastName)
         {
             Customer customer = new Customer();
@@ -25,7 +28,8 @@ namespace Web.Controllers.CustomerControllers
             customer.CustomerFirstName = FirstName;
             customer.CustomerLastName = LastName;
 
-            _genericContext.Customers.Add(customer);
+            _wrapper.Customer.Create(customer);
+            _wrapper.Save();
 
             await Task.Delay(1);
             return "Customer Creation Request Sent";
