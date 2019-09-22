@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ApplicationCore.Data;
+using ApplicationCore.Interfaces;
 
 namespace ApplicationCore.Entities
 {
@@ -12,9 +14,13 @@ namespace ApplicationCore.Entities
         public string Title { get; set;  }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }
-        public string Email { get; set; }
-        public string HomePhone { get; set; }
-        public string MobilePhone { get; set; }
-        public DateTime RegisteredDate { get; set; }
     }
+
+    public class CustomerRepository : GenericOperations<Customer>, ICustomerRepository
+    {
+        public CustomerRepository(GenericContext genericContext) : base(genericContext)
+        {
+        }
+    }
+
 }
